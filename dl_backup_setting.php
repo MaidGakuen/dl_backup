@@ -24,7 +24,7 @@ if(isset($_GET['update'])){
 	if(!empty($email)){
 		$e = $m->query('SHOW TABLES');
 		$aaa = 'Tables_in_'.DB_NAME;
-		$dump  = '<pre>#Warning: Do not change the comments!!!'  . "\n";
+		$dump  = '#Warning: Do not change the comments!!!'  . "\n";
 		$dump .= '#Tieba-Cloud-Sign Database Backup' . "\n";
 		$dump .= '#Version:' . SYSTEM_VER . "\n";
 		$dump .= '#Date:' . date('Y-m-d H:m:s') . "\n";
@@ -35,9 +35,9 @@ if(isset($_GET['update'])){
 				$dump .= dataBak($table);
 			}
 		}
-		$dump .= "\n" . '############## End ##############</pre>';
+		$dump .= "\n" . '############## End ##############';
 		$title = SYSTEM_NAME . " " . date('Y-m-d') . " 数据库备份";
-		$x = misc::mail($email,$title,$dump);
+		$x = misc::mail($email,$title,"备份文件已附上，请查看附件",array('backup-'.date('Ymd').'.sql' => $dump));
 		if($x != true){
 			option::set('dl_backup_log',date('Y-m-d H:m:s').'  数据库备份邮件发送失败！');
 		    ReDirect(SYSTEM_URL.'index.php?mod=admin:setplug&plug=dl_backup&wrong');}
